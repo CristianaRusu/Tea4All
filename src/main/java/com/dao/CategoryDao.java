@@ -1,6 +1,7 @@
 package com.dao;
 
-import com.entityClass.Product;
+import com.entityClass.Category;
+import com.entityClass.Ingredient;
 
 import java.util.List;
 
@@ -12,11 +13,11 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
-public class ProductDao extends GenericDao<Product>{
+public class CategoryDao extends GenericDao<Category> {
 
     public EntityManagerFactory factory;
-    public ProductDao(EntityManagerFactory factory) {
-        super(Product.class);
+    public CategoryDao(EntityManagerFactory factory) {
+        super(Category.class);
         this.factory = factory;
     }
 
@@ -31,18 +32,18 @@ public class ProductDao extends GenericDao<Product>{
     }
 
     //for login
-    public List<Product> find(String name) {
+    public List<Category> find(String name) {
         EntityManager em = getEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Product> q = cb.createQuery(Product.class);
+        CriteriaQuery<Category> q = cb.createQuery(Category.class);
 
-        Root<Product> c = q.from(Product.class);
+        Root<Category> c = q.from(Category.class);
         ParameterExpression<String> paramName = cb.parameter(String.class);
         q.select(c).where(cb.equal(c.get("id"), paramName));
-        TypedQuery<Product>query = em.createQuery(q);
+        TypedQuery<Category>query = em.createQuery(q);
         query.setParameter(paramName, name);
 
-        List<Product> results = query.getResultList();
+        List<Category> results = query.getResultList();
         return results;
 
     }
